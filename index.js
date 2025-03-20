@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
@@ -12,11 +13,14 @@ const URL = require("./models/url");
 const path = require("path");
 const { connectToMongoDb } = require("./connect");
 
-const PORT = 8001;
+const PORT = process.env.PORT || 8000;
 
-connectToMongoDb("mongodb://localhost:27017/short-url").then(() =>
-  console.log("MongoDb Connected!")
-);
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then((e) => console.log("Connected to MongoDB"));
+// connectToMongoDb("mongodb://localhost:27017/short-url").then(() =>
+//   console.log("MongoDb Connected!")
+// );
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //TO USE FORM IN HTML/EJS FILES
